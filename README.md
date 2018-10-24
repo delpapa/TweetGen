@@ -1,4 +1,4 @@
-# Generating text and tweets with recurrent networks
+# Generating tweets with recurrent networks
 
 This repository is my first test for generating text (and tweets) with deep recurrent networks. Most of the code here is based on [this tensorflow tutorial](https://www.tensorflow.org/tutorials/sequences/text_generation) and the classic article [The Unreasonable Effectiveness of Recurrent Neural Networks](http://karpathy.github.io/2015/05/21/rnn-effectiveness/).
 
