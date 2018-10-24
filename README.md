@@ -22,7 +22,7 @@ Make sure you have installed git. Fork a copy of this repository to your own Git
 
 ### Setting up the environemnt
 
-Install [Python 3.6](https://www.python.org/) and the [conda package manager](https://conda.io/miniconda.html). Navigate to the project directory inside a terminal and create a virtual environment (replace <environment_name>, for example, with "environment_name") and install the required packages:
+Install [Python 3.6](https://www.python.org/) and the [conda package manager](https://conda.io/miniconda.html). You set up an envirment to avoid conflicts between different versions of packages. To do so, navigate to the project directory inside a terminal and create a virtual environment (replace <environment_name>, for example, with "environment_name") and install the required packages:
 
 `conda create -n <environment_name> --file requirements.txt python=3.6`
 
@@ -34,8 +34,7 @@ By installing these packages in a virtual environment, you avoid dependency clas
 
 ### Using the model
 
-To run the model, simply navigate to the main folder and type `python3 twitter_username.py`. This script loads parameters, network model, and auxiliary functions. The important parameters, which can be changed in the `params.json` file are:
-
+To run the model, simply navigate to the main folder and type `python3 twitter_username.py`. This script loads parameters, network model, and auxiliary functions. The important parameters, which can be changed in `params.json`, are:
 
 Data related parameters:
 
@@ -56,9 +55,19 @@ Generation related parameters:
 * `generate`: bool, if True, generate a new output with the latest previously trained model
 * `temperature`: float, between 0 and 1: how predictable the output text it (1 for more surprising outputs)
 
+Please note that the default values (as well as the network architecture) are inspired by the [tensorflow tutorial](https://www.tensorflow.org/tutorials/sequences/text_generation), and by no means are guaranteed to return the best results. Model tuning is still ongoing work! Feel free to play with these parameters and maybe let me know what works best for you.
 
 ## Sample results
 
+The default parameters already result in some reasonably fun output tweets, and also show a bit of what such 'simple' model can learn. First, let's start with the tweets from Haddad (chosen by alphabetical order, and not by any political affiliation, inspiration, admiration, aspiration, or computation). Nice looking output tweets are:
+
+
+
+Now let's look at that the tweets from Bolsonaro have to say:
+
+
+
+The political implications of such outputs are left to the reader :)
 
 ## License
 
