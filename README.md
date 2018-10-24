@@ -34,7 +34,28 @@ By installing these packages in a virtual environment, you avoid dependency clas
 
 ### Using the model
 
-To run the model, simply navigate to the main folder and type `python3 twitter_username.py`. This script loads parameters, network model, and auxiliary functions. By default, the model is always trained before generating new tweets.
+To run the model, simply navigate to the main folder and type `python3 twitter_username.py`. This script loads parameters, network model, and auxiliary functions. The important parameters, which can be changed in the `params.json` file are:
+
+
+Data related parameters:
+
+* `screen_name`: str, the twitter screen name of the twitter user (in this case, choose either "Haddad_Fernando" or "jairbolsonaro")
+
+* `get_new_data`: bool, if True, get the newest ~ 3000 tweets from the user
+
+Training related parameters:
+* `train`: bool, if True, train the model; if False, load the latest previously trained model
+* `epochs`: int, number of epochs to train the model 
+* `embedding_dim`: int, number of embedding dimensions for each character
+* `units`: int, number of units for the recurrent layer
+* `seq_length`: int, maximum sequence length for a single input in characters
+* `batch_size`: int, the batch size
+* `buffer_size`: int, size of the buffer when shuffling the input dataset (necessary due to tensorflow implementation)
+
+Generation related parameters:
+* `generate`: bool, if True, generate a new output with the latest previously trained model
+* `temperature`: float, between 0 and 1: how predictable the output text it (1 for more surprising outputs)
+
 
 ## Sample results
 
