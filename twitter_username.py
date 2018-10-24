@@ -11,29 +11,32 @@ import tensorflow as tf
 tf.enable_eager_execution()
 
 from utils import get_tweets_from_screen_name, tweets_preprocessing
-from gru_tf import GRU_Model as Model
-from gru_tf import split_input_target, loss_function
+from rnn_model import GRU_Model as Model
+from rnn_model import split_input_target, loss_function
 
 ################################################################################
-# Parameters
+# Load parameters
+with open('params.json',"rt") as fin:
+    p = json.load(fin)
 
 # data related stuff
-GET_NEW_DATA = False # if True, update tweets data
-# TWITTER_SCREEN_NAME = 'jairbolsonaro'
-TWITTER_SCREEN_NAME = 'Haddad_Fernando'
+TWITTER_SCREEN_NAME = p['screen_name']
 CREDENTIALS_FILE = 'twitter.json'
+GET_NEW_DATA = p["get_new_data"]
 
-# model related stuff
-EMBEDDING_DIM = 256 # The embedding dimension
-UNITS = 1024        # Number of RNN units
-SEQ_LENGTH = 100    # maximum length of a single input in chars
-BATCH_SIZE = 64
-BUFFER_SIZE = 10000
-EPOCHS = 0         # if 0, load most recent checkpoint
+# model training related stuff
+TRAIN = p["train"]
+EPOCHS = p["epochs"]
+EMBEDDING_DIM = p["embedding_dim"]
+UNITS = p["units"]
+SEQ_LENGTH = p["seq_length"]
+BATCH_SIZE = p["batch_size"]
+BUFFER_SIZE = p["buffer_size"]
 
-NUM_GENERATE = 20000
-TEMPERATURE = 0.6
-
+# output generation related stuff
+GENERATE = p["generate"]
+NUM_GENERATE = p["num_generate"]
+TEMPERATURE = p["temperature"]
 ################################################################################
 
 # 1. load or download data
@@ -73,6 +76,7 @@ vocab_size = len(vocab)
 print('Total number of characters: {}'.format(len(input_corpus)))
 print('Number of different characters: {}'.format(len(vocab)))
 
+##########################################################
 # 2. create input for the model and auxiliary dictionaries
 
 # Creating a mapping from unique characters to indices
@@ -81,9 +85,8 @@ idx2char = np.array(vocab)
 text_as_int = np.array([char2idx[c] for c in input_corpus])
 
 # Create training examples / targets
+if TRAIN:
 
-
-if EPOCHS is not 0:
     chunks = tf.data.Dataset.from_tensor_slices(text_as_int).batch(SEQ_LENGTH+1, drop_remainder=True)
     dataset = chunks.map(split_input_target)
     dataset = dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE, drop_remainder=True)
@@ -104,7 +107,7 @@ checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt")
 
 ###########################################
 # 3. train the model or load a previous one
-if EPOCHS is not 0:
+if TRAIN:
     print('\n\nTraining the model...\n\n')
 
     for epoch in range(EPOCHS):
@@ -137,7 +140,7 @@ if EPOCHS is not 0:
 
     checkpoint.save(file_prefix = checkpoint_prefix)
 
-else:
+elif GENERATE:
 
     print('\n\nLoading previous model...')
 
@@ -151,38 +154,40 @@ print('done!')
 
 ########################
 # 4. generate new tweets
-print('\n\nGenerating new tweets...')
-start_string = ' ' # character that starts the output
-input_eval = [char2idx[s] for s in start_string]
-input_eval = tf.expand_dims(input_eval, 0)
+if GENERATE:
+    print('\n\nGenerating new tweets...')
+    start_string = ' ' # character that starts the output
+    input_eval = [char2idx[s] for s in start_string]
+    input_eval = tf.expand_dims(input_eval, 0)
 
-text_generated = []
-model.reset_states()
-for i in range(NUM_GENERATE):
+    text_generated = []
+    model.reset_states()
+    for i in range(NUM_GENERATE):
 
-    predictions = model(input_eval)
+        predictions = model(input_eval)
 
-    # remove the batch dimension
-    predictions = tf.squeeze(predictions, 0)
+        # remove the batch dimension
+        predictions = tf.squeeze(predictions, 0)
 
-    # using a multinomial distribution to predict the word returned by the model
-    predictions = predictions / TEMPERATURE
-    predicted_id = tf.multinomial(predictions, num_samples=1)[-1,0].numpy()
+        # using a multinomial distribution to predict the word returned by the model
+        predictions = predictions / TEMPERATURE
+        predicted_id = tf.multinomial(predictions, num_samples=1)[-1,0].numpy()
 
-    # pass the predicted char as the next input to the model
-    # along with the previous hidden state
-    input_eval = tf.expand_dims([predicted_id], 0)
+        # pass the predicted char as the next input to the model
+        # along with the previous hidden state
+        input_eval = tf.expand_dims([predicted_id], 0)
 
-    text_generated.append(idx2char[predicted_id])
+        text_generated.append(idx2char[predicted_id])
 
-output_corpus = start_string + ''.join(text_generated)
-print('done!')
+    output_corpus = start_string + ''.join(text_generated)
+    print('done!')
 
 ###############################
 # 5. save output tweets to disc
-print('\n\nSample output: {}'.format(output_corpus[:1000]))
-output_path = 'sample_outputs/twitter_'
-if not os.path.exists('sample_outputs'):
-    os.makedirs('sample_outputs')
-with open(output_path+TWITTER_SCREEN_NAME+'_t{}.txt'.format(TEMPERATURE), "wt") as fout:
-    fout.write(output_corpus)
+if GENERATE:
+    print('\n\nSample output: {}'.format(output_corpus[:1000]))
+    output_path = 'sample_outputs/twitter_'
+    if not os.path.exists('sample_outputs'):
+        os.makedirs('sample_outputs')
+    with open(output_path+TWITTER_SCREEN_NAME+'_t{}.txt'.format(TEMPERATURE), "wt") as fout:
+        fout.write(output_corpus)
