@@ -26,7 +26,7 @@ Make sure you have installed git. Fork a copy of this repository to your own Git
 
 Install [Python 3.7](https://www.python.org/) and the [conda package manager](https://conda.io/miniconda.html). You set up an envirment to avoid conflicts between different versions of packages. To do so, navigate to the project directory inside a terminal and create a virtual environment (replace <environment_name>, for example, with "environment_name") and install the required packages:
 
-`conda create -n <environment_name> --file requirements.txt python=3.7`
+`conda create -n <environment_name> --file requirements.txt`
 
 Activate the virtual environment:
 
