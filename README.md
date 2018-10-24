@@ -16,8 +16,8 @@ The repository is currently under construction, so don't be surprised if part of
 
 ### Setting up the environemnt
 
-### Sample results
+## Sample results
 
-### Acknowledgements
+## Acknowledgements
 
-### License
+## License
