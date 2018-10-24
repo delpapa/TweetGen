@@ -1,5 +1,6 @@
 """
 Script for the main simulation
+based on: https://www.tensorflow.org/tutorials/sequences/text_generation
 """
 import json
 import os
@@ -18,7 +19,8 @@ from gru_tf import split_input_target, loss_function
 
 # data related stuff
 GET_NEW_DATA = False # if True, update tweets data
-TWITTER_SCREEN_NAME = 'jairbolsonaro'
+# TWITTER_SCREEN_NAME = 'jairbolsonaro'
+TWITTER_SCREEN_NAME = 'Haddad_Fernando'
 CREDENTIALS_FILE = 'twitter.json'
 
 # model related stuff
@@ -27,10 +29,10 @@ UNITS = 1024        # Number of RNN units
 SEQ_LENGTH = 100    # maximum length of a single input in chars
 BATCH_SIZE = 64
 BUFFER_SIZE = 10000
-EPOCHS = 30         # if 0, load most recent checkpoint
+EPOCHS = 0         # if 0, load most recent checkpoint
 
-NUM_GENERATE = 1000
-TEMPERATURE = 0.5
+NUM_GENERATE = 20000
+TEMPERATURE = 0.6
 
 ################################################################################
 
@@ -131,19 +133,21 @@ if EPOCHS is not 0:
             checkpoint.save(file_prefix = checkpoint_prefix)
 
         print ('Epoch {} Loss {:.4f}'.format(epoch+1, loss))
-        print ('Time taken for 1 epoch {} sec\n'.format(time.time() - start))
+        print ('Time taken for 1 epoch {} sec\n'.format(int(time.time() - start)))
 
     checkpoint.save(file_prefix = checkpoint_prefix)
-    print('done!')
 
 else:
 
     print('\n\nLoading previous model...')
-    model = Model(vocab_size, EMBEDDING_DIM, UNITS)
-    checkpoint = tf.train.Checkpoint(model=model)
-    checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))
-    model.build(tf.TensorShape([1, None]))
-    print('done!')
+
+# the model always have to lead the weigths because the input dimention changes
+# from BATCH_SIZE (when training) to 1 (when generating)
+model = Model(vocab_size, EMBEDDING_DIM, UNITS)
+checkpoint = tf.train.Checkpoint(model=model)
+checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))
+model.build(tf.TensorShape([1, None]))
+print('done!')
 
 ########################
 # 4. generate new tweets
@@ -176,8 +180,9 @@ print('done!')
 
 ###############################
 # 5. save output tweets to disc
-
 print('\n\nSample output: {}'.format(output_corpus[:1000]))
 output_path = 'sample_outputs/twitter_'
-with open(output_path+input_file, "wt") as fout:
+if not os.path.exists('sample_outputs'):
+    os.makedirs('sample_outputs')
+with open(output_path+TWITTER_SCREEN_NAME+'_t{}.txt'.format(TEMPERATURE), "wt") as fout:
     fout.write(output_corpus)
