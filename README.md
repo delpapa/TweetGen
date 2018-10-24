@@ -14,6 +14,8 @@ The recurrent network is used as a generative model, 'creating' new tweets based
 
 The data is extracted from twitter using their own [API](https://developer.twitter.com/content/developer-twitter/en.html). To access data from twitter, you need to register as a developer and create an app in their plataform. You will then receive the necessary credentials to access their database, which are required for training this model. The credentials should be included in the `/credentials/twitter.json` file, which is read by the `get_tweets_from_screen_name` function in the `utils.py` script.
 
+Some preprocessing is required before feeding the data to the network, but I have tried to keep it minimum. For now, only html links are completely removed from the dataset, and end of sentence chars are added at the end of each tweet for a clerer output.
+
 ## Installation 
 
 ### Installing git and forking the repository
@@ -22,9 +24,9 @@ Make sure you have installed git. Fork a copy of this repository to your own Git
 
 ### Setting up the environemnt
 
-Install [Python 3.6](https://www.python.org/) and the [conda package manager](https://conda.io/miniconda.html). You set up an envirment to avoid conflicts between different versions of packages. To do so, navigate to the project directory inside a terminal and create a virtual environment (replace <environment_name>, for example, with "environment_name") and install the required packages:
+Install [Python 3.7](https://www.python.org/) and the [conda package manager](https://conda.io/miniconda.html). You set up an envirment to avoid conflicts between different versions of packages. To do so, navigate to the project directory inside a terminal and create a virtual environment (replace <environment_name>, for example, with "environment_name") and install the required packages:
 
-`conda create -n <environment_name> --file requirements.txt python=3.6`
+`conda create -n <environment_name> --file requirements.txt python=3.7`
 
 Activate the virtual environment:
 
@@ -57,17 +59,33 @@ Generation related parameters:
 
 Please note that the default values (as well as the network architecture) are inspired by the [tensorflow tutorial](https://www.tensorflow.org/tutorials/sequences/text_generation), and by no means are guaranteed to return the best results. Model tuning is still ongoing work! Feel free to play with these parameters and maybe let me know what works best for you.
 
+Regarding time, simulating the model for 50 epochs in a reasonably fast laptop (i7-7500U, but no GPU) takes approximately 5 hours. Be mindful of this fact when running the model.
+
 ## Sample results
 
-The default parameters already result in some reasonably fun output tweets, and also show a bit of what such 'simple' model can learn. First, let's start with the tweets from Haddad (chosen by alphabetical order, and not by any political affiliation, inspiration, admiration, aspiration, or computation). Nice looking output tweets are:
+The default parameters already result in some reasonably fun output tweets, and also show a bit of what such 'simple' model can learn. The outputs contain a few mistakes and typos, of course, as the model learns the whole Portuguese language based only on a set of approx. 3000 tweets.
 
+First, let's start with the tweets from Haddad (chosen by alphabetical order, and not by any political affiliation, inspiration, admiration, aspiration, or computation). Nice looking output tweets are (outputs only in Portuguese, as this is the language the candidates typically tweet):
 
+`Eu vivo de salário, sou um defensor árduo da democracia. Repudio qualquer forma de autoritarismo, apenas para o segundo turno, para lutarmos juntos em defesa da democracia e da liberdade!`
 
-Now let's look at that the tweets from Bolsonaro have to say:
+`Nós queremos apoiar o ensino médio. A juventude que pensa e debater o país. Com assistência médica, enfermaria se for preciso para debater o Brasil. Ninguém pode ser eleito sem apresentar as suas propostas para bicicleta em meu Plano de Governo`
 
+`Esse homem que está encarcerado injustamente há quase cinco meses é o que eles propõem de novo não é bom." #MelhorComHaddad13 #DebateNaRecord #EquipeHaddad`
 
+`Agora o povo não consegue empreender... Por isso pro @LulaOficial foi o maior presidente do Brasil. #MaisLivrosMenosArmas`
 
-The political implications of such outputs are left to the reader :)
+Now let's look at what nice tweets from Bolsonaro have to say:
+
+`Jair Bolsonaro recebe visita do PSDB com o PT contra Jair Bolsonaro.`
+
+`- Obrigado Santo Amaro da Impeachment, povo nas ruas, Jair Bolsonaro: "Especialistas e eduais o silêncio das campanhas de marketing contra a verdade também nesta guerra pelas várias face de um jornalista investigativo feriu e a casa caia. Essa é a direita é o melhor caminho! É o Bolsonaro?`
+
+`Jair Bolsonaro recebe visita do PSDB contra o combo da piada está visitá-lo imprensa. Quando adotamos o espírito na lista de Janot, Poder`
+
+For those of you who speak portuguese, the tweets must look at least a bit interesting, if not funny. Maybe you are even able to find some typical traits of the candidates. Interestingly, this 'simple' model is already able to recognize that tweets should be short, contain punctuation, and begin sentences with capital letters. A bit more impressive, typical abbreviations are also present (such as PSDB, PT, and other Brazilian parties). Some tweets contain hashtags, others contain mentions to other users.
+
+Any political implications of such outputs is left to the reader :)
 
 ## License
 
