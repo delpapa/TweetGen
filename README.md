@@ -63,7 +63,7 @@ Regarding time, simulating the model for 50 epochs in a reasonably fast laptop (
 
 To test the model, I have used as examples the two candidates for the 2nd round of the 2018 Brazilian presidential election. Namely, the candidates are [Fernando Haddad](https://twitter.com/Haddad_Fernando) and [Jair Bolsonaro](https://twitter.com/jairbolsonaro). Of course, the model can be applied to any particular twitter user of your preference, as long as you have access to their data. 
 
-The default parameters already result in some reasonably fun output tweets, and also show a bit of what such 'simple' model can learn. The outputs contain a few mistakes and typos, of course, as the model learns the whole Portuguese language based only on a set of approx. 3000 tweets.
+The default parameters already result in some reasonably fun output tweets, and also show a bit of what such 'simple' model can learn. The outputs contain a few mistakes and typos (for a temperature of 0.7), of course, as the model has to learn the whole Portuguese language based only on a set of approx. 3000 tweets. Some tweets are grammatically non-sense, and most tweets lack any meaning at all.
 
 First, let's start with the tweets from Haddad (chosen by alphabetical order, and not by any political affiliation, inspiration, admiration, aspiration, or computation). Nice looking output tweets are (outputs only in Portuguese, as this is the language the candidates typically tweet):
 
@@ -71,11 +71,9 @@ First, let's start with the tweets from Haddad (chosen by alphabetical order, an
 
 `Nós queremos apoiar o ensino médio. A juventude que pensa e debater o país. Com assistência médica, enfermaria se for preciso para debater o Brasil. Ninguém pode ser eleito sem apresentar as suas propostas para bicicleta em meu Plano de Governo`
 
-`Esse homem que está encarcerado injustamente há quase cinco meses é o que eles propõem de novo não é bom." #MelhorComHaddad13 #DebateNaRecord #EquipeHaddad`
-
 `Agora o povo não consegue empreender... Por isso pro @LulaOficial foi o maior presidente do Brasil. #MaisLivrosMenosArmas`
 
-Now let's look at what nice tweets from Bolsonaro have to say:
+Now let's look at what nice tweets from Bolsonaro tell us:
 
 `Jair Bolsonaro recebe visita do PSDB com o PT contra Jair Bolsonaro.`
 
@@ -83,7 +81,7 @@ Now let's look at what nice tweets from Bolsonaro have to say:
 
 `Jair Bolsonaro recebe visita do PSDB contra o combo da piada está visitá-lo imprensa. Quando adotamos o espírito na lista de Janot, Poder`
 
-For those of you who speak portuguese, the tweets must look at least a bit interesting, if not funny. Maybe you are even able to find some typical traits of the candidates. Interestingly, this 'simple' model is already able to recognize that tweets should be short, contain punctuation, and begin sentences with capital letters. A bit more impressive, typical abbreviations are also present (such as PSDB, PT, and other Brazilian parties). Some tweets contain hashtags, others contain mentions to other users.
+For those of you who speak portuguese, the tweets must look at least a bit interesting, if not funny. For those who don't, you will miss many references to the current Brazilian popular culture. Maybe you are even able to find some typical traits of the candidates. Interestingly, this 'simple' model is already able to recognize that tweets should be short, contain punctuation, and begin sentences with capital letters. A bit more impressive, typical abbreviations are also present (such as PSDB, PT, and other Brazilian parties). Some tweets contain hashtags, others contain mentions to other users). Shortcommings of the current version of the model are some long range correlations: for example, the model not always closes the quotations it opens, and some subjects do not agree with their verbs in form and gender. Many of these problems can hopefully be removed by adding more layers to the model, or trying different training techniques. This results section will be updated when these new features are added to this project.
 
 Any political implications of such outputs is left to the reader :)
 
