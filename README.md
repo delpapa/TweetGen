@@ -38,7 +38,7 @@ To run the model, simply navigate to the main folder and type `python3 twitter_u
 
 Data related parameters:
 
-* `screen_name`: str, the twitter screen name of the twitter user (in this case, choose either "Haddad_Fernando" or "jairbolsonaro")
+* `screen_name`: str, the twitter screen name of the twitter user (in the case for the Brazilian elections, choose either "Haddad_Fernando" or "jairbolsonaro")
 
 * `get_new_data`: bool, if True, get the newest ~ 3000 tweets from the user
 
