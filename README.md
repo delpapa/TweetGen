@@ -6,9 +6,7 @@ The repository is currently under construction, so don't be surprised if part of
 
 ## Project
 
-This is a (rather hastly put together) repository for training a recurrent neural network with the latest tweets from the two candidates for the 2018 Brazilian presidential election (2nd round). Namely, the candidates are [Fernando Haddad](https://twitter.com/Haddad_Fernando) and [Jair Bolsonaro](https://twitter.com/jairbolsonaro). Of course, the model can be applied to any particular twitter user of your preference, as long as you have access to their data. 
-
-The recurrent network is used as a generative model, 'creating' new tweets based on the previous learned ones. This models work at the character level, i.e., it predicts what is the next character in the tweet based on the previous ones.
+This is a (rather hastly put together) repository for training a recurrent neural network with the latest tweets from some user. The recurrent network is used as a generative model, 'creating' new tweets based on the previous learned ones. This models work at the character level, i.e., it predicts what is the next character in the tweet based on the previous ones.
 
 ## Data
 
@@ -26,11 +24,11 @@ Make sure you have installed git. Fork a copy of this repository to your own Git
 
 Install [Python 3.7](https://www.python.org/) and the [conda package manager](https://conda.io/miniconda.html). You set up an envirment to avoid conflicts between different versions of packages. To do so, navigate to the project directory inside a terminal and create a virtual environment (replace <environment_name>, for example, with "environment_name") and install the required packages:
 
-`conda create -n <environment_name> --file requirements.txt`
+`conda env create -f environment.yml`
 
 Activate the virtual environment:
 
-`source activate <environment_name>`
+`conda activate twitter_env`
 
 By installing these packages in a virtual environment, you avoid dependency clashes with other packages that may already be installed elsewhere on your computer.
 
@@ -62,6 +60,8 @@ Please note that the default values (as well as the network architecture) are in
 Regarding time, simulating the model for 50 epochs in a reasonably fast laptop (i7-7500U, but no GPU) takes approximately 5 hours. Be mindful of this fact when running the model.
 
 ## Sample results
+
+To test the model, I have used as examples the two candidates for the 2nd round of the 2018 Brazilian presidential election. Namely, the candidates are [Fernando Haddad](https://twitter.com/Haddad_Fernando) and [Jair Bolsonaro](https://twitter.com/jairbolsonaro). Of course, the model can be applied to any particular twitter user of your preference, as long as you have access to their data. 
 
 The default parameters already result in some reasonably fun output tweets, and also show a bit of what such 'simple' model can learn. The outputs contain a few mistakes and typos, of course, as the model learns the whole Portuguese language based only on a set of approx. 3000 tweets.
 
