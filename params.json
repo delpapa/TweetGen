@@ -1,12 +1,12 @@
-{"screen_name": "Haddad_Fernando",
+{"screen_name": "jairbolsonaro",
 "get_new_data": false,
 "train": false,
 "generate": true,
-"epochs": 10,
+"epochs": 50,
 "embedding_dim": 256,
 "units": 1024,
 "seq_length": 100,
 "batch_size": 64,
 "buffer_size": 10000,
 "num_generate": 20000,
-"temperature": 0.6}
+"temperature": 0.7}
