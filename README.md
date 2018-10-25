@@ -14,7 +14,7 @@ The data is extracted from twitter using their own [API](https://developer.twitt
 
 Some preprocessing is required before feeding the data to the network, but I have tried to keep it minimum. For now, only html links are completely removed from the dataset, and end of sentence chars are added at the end of each tweet for a clerer output.
 
-## Installation 
+## Installation
 
 ### Installing git and forking the repository
 
@@ -28,7 +28,7 @@ Install [Python 3.7](https://www.python.org/) and the [conda package manager](ht
 
 Activate the virtual environment:
 
-`conda activate twitter_env`
+`source activate twitter_env`
 
 By installing these packages in a virtual environment, you avoid dependency clashes with other packages that may already be installed elsewhere on your computer.
 
@@ -44,7 +44,7 @@ Data related parameters:
 
 Training related parameters:
 * `train`: bool, if True, train the model; if False, load the latest previously trained model
-* `epochs`: int, number of epochs to train the model 
+* `epochs`: int, number of epochs to train the model
 * `embedding_dim`: int, number of embedding dimensions for each character
 * `units`: int, number of units for the recurrent layer
 * `seq_length`: int, maximum sequence length for a single input in characters
@@ -61,7 +61,7 @@ Regarding time, simulating the model for 50 epochs in a reasonably fast laptop (
 
 ## Sample results
 
-To test the model, I have used as examples the two candidates for the 2nd round of the 2018 Brazilian presidential election. Namely, the candidates are [Fernando Haddad](https://twitter.com/Haddad_Fernando) and [Jair Bolsonaro](https://twitter.com/jairbolsonaro). Of course, the model can be applied to any particular twitter user of your preference, as long as you have access to their data. 
+To test the model, I have used as examples the two candidates for the 2nd round of the 2018 Brazilian presidential election. Namely, the candidates are [Fernando Haddad](https://twitter.com/Haddad_Fernando) and [Jair Bolsonaro](https://twitter.com/jairbolsonaro). Of course, the model can be applied to any particular twitter user of your preference, as long as you have access to their data.
 
 The default parameters already result in some reasonably fun output tweets, and also show a bit of what such 'simple' model can learn. The outputs contain a few mistakes and typos (for a temperature of 0.7), of course, as the model has to learn the whole Portuguese language based only on a set of approx. 3000 tweets. Some tweets are grammatically non-sense, and most tweets lack any meaning at all.
 
