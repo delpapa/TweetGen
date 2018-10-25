@@ -83,7 +83,7 @@ Now let's look at what nice tweets from Bolsonaro tell us:
 
 For those of you who speak portuguese, the tweets must look at least a bit interesting, if not funny. For those who don't, you will miss many references to the current Brazilian popular culture. Maybe you are even able to find some typical traits of the candidates. Interestingly, this 'simple' model is already able to recognize that tweets should be short, contain punctuation, and begin sentences with capital letters. A bit more impressive, typical abbreviations are also present (such as PSDB, PT, and other Brazilian parties). Some tweets contain hashtags, others contain mentions to other users). Shortcommings of the current version of the model are some long range correlations: for example, the model not always closes the quotations it opens, and some subjects do not agree with their verbs in form and gender. Many of these problems can hopefully be removed by adding more layers to the model, or trying different training techniques. This results section will be updated when these new features are added to this project.
 
-Any political implications of such outputs is left to the reader :)
+Any political implications of such outputs are left to the reader :)
 
 ## License
 
